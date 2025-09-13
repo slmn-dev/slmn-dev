@@ -1,19 +1,14 @@
 <?php
-use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Http\Request;
 
-define('LARAVEL_START', microtime(true));
+// Set correct document root
+$_SERVER['DOCUMENT_ROOT'] = __DIR__ . '/../public';
 
-// Pastikan path autoload benar
-require_once __DIR__.'/../vendor/autoload.php';
+// Set script paths
+$_SERVER['SCRIPT_NAME'] = '/index.php';
+$_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../public/index.php';
 
-// Pastikan path bootstrap benar  
-$app = require_once __DIR__.'/../bootstrap/app.php';
+// Change to Laravel root directory
+chdir(__DIR__ . '/..');
 
-$kernel = $app->make(Kernel::class);
-
-$response = $kernel->handle(
-    $request = Request::capture()
-)->send();
-
-$kernel->terminate($request, $response);
+// Include the original Laravel public/index.php
+require __DIR__ . '/../public/index.php';
